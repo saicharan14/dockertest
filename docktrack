@@ -1,0 +1,19 @@
+FROM ubuntu:14.04
+Maintainer Samhitha
+WORKDIR /home/ubuntu
+RUN apt-get update && apt-get install -y wget
+RUN cd /opt && wget http://nodejs.org/dist/v0.10.32/node-v0.10.32-linux-x64.tar.gz && \
+     tar zxf node-v0.10.32-linux-x64.tar.gz && \
+     rm node-v0.10.32-linux-x64.tar.gz && \
+     mv "node-v0.10.32-linux-x64" "node"
+RUN cd /opt && wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz && \
+     tar xzf android-sdk_r23.0.2-linux.tgz && \
+     rm android-sdk_r23.0.2-linux.tgz && \
+     mv "android-sdk-linux" "android-sdk"
+RUN cd /etc/apt/sources.list.d && \
+     echo "deb http://old-releases.ubuntu.com/ubuntu/ raring main restricted universe multiverse" >ia32-libs-raring.list
+RUN dpkg --add-architecture i386
+RUN apt-get update
+#RUN apt-get install ia32-libs
+RUN apt-get install -qq -y libc6:i386 libgcc1:i386 libstdc++6:i386 libz1:i386
+
